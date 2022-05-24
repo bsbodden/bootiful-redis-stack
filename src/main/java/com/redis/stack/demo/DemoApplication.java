@@ -1,6 +1,7 @@
 package com.redis.stack.demo;
 
 import com.redis.om.spring.annotations.EnableRedisEnhancedRepositories;
+import com.redis.stack.demo.repositories.hashes.RoleRepository;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,9 +24,14 @@ public class DemoApplication {
   private static final Log logger = LogFactory.getLog(DemoApplication.class);
 
   @Bean
-  CommandLineRunner loadTestData() {
+  CommandLineRunner loadTestData(RoleRepository roleRepository) {
     logger.info("🚀 Loading test data...");
     return args -> {
+      if (roleRepository.count() == 0) {
+
+      } else {
+
+      }
     };
   }
 
