@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.redis.om.spring.annotations.Bloom;
+import com.redis.om.spring.annotations.Indexed;
 import com.redis.om.spring.annotations.Searchable;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -30,6 +31,7 @@ public class User {
 
   @NonNull
   @Bloom(name = "bf_company_email", capacity = 100000, errorRate = 0.001)
+  @Indexed
   private String email;
 
   @NonNull
