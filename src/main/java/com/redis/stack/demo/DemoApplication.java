@@ -79,12 +79,17 @@ public class DemoApplication {
   }
 
   @Bean
-  CommandLineRunner peekAtTheData(RoleRepository roleRepository) {
+  CommandLineRunner peekAtTheData(RoleRepository roleRepository, UserRepository userRepository) {
     return args -> {
+      // test RoleRepository#findFirstByName
       Optional<Role> maybeAdmin = roleRepository.findFirstByName("admin");
       if (maybeAdmin.isPresent()) {
         logger.info("👉 The admin role id is " + maybeAdmin.get().getId());
       }
+
+      // test UserRepository#findByNameStartingWith
+      Iterable<User> users = userRepository.findByNameStartingWith("Mic");
+      users.forEach(u -> logger.info("👉 Found user named: " + u.getName()));
     };
   }
 
