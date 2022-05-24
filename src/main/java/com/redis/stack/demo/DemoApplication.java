@@ -10,6 +10,7 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.redis.om.spring.annotations.EnableRedisDocumentRepositories;
 import com.redis.om.spring.annotations.EnableRedisEnhancedRepositories;
 import com.redis.stack.demo.models.hashes.Role;
 import com.redis.stack.demo.models.hashes.User;
@@ -32,6 +33,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @EnableRedisEnhancedRepositories(basePackages = {"com.redis.stack.demo.repositories.hashes","com.redis.stack.demo.models.hashes"})
+@EnableRedisDocumentRepositories(basePackages = {"com.redis.stack.demo.repositories.json","com.redis.stack.demo.models.json"})
 public class DemoApplication {
 
   private static final Log logger = LogFactory.getLog(DemoApplication.class);
