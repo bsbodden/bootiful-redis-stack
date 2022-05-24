@@ -1,6 +1,7 @@
 package com.redis.stack.demo;
 
 import com.redis.om.spring.annotations.EnableRedisEnhancedRepositories;
+import com.redis.stack.demo.models.hashes.Role;
 import com.redis.stack.demo.repositories.hashes.RoleRepository;
 
 import org.apache.commons.logging.Log;
@@ -28,7 +29,7 @@ public class DemoApplication {
     logger.info("🚀 Loading test data...");
     return args -> {
       if (roleRepository.count() == 0) {
-
+        Role admin = Role.builder().name("admin").build();
       } else {
 
       }
