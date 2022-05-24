@@ -1,6 +1,7 @@
 package com.redis.stack.demo;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.collect.Lists;
 import com.redis.om.spring.annotations.EnableRedisEnhancedRepositories;
@@ -42,6 +43,16 @@ public class DemoApplication {
       } else {
         roles = Lists.newArrayList(roleRepository.findAll());
         logger.info(String.format("✅ Loaded %s Roles...", roleRepository.count()));
+      }
+    };
+  }
+
+  @Bean
+  CommandLineRunner peekAtTheData(RoleRepository roleRepository) {
+    return args -> {
+      Optional<Role> maybeAdmin = roleRepository.findFirstByName("admin");
+      if (maybeAdmin.isPresent()) {
+        logger.info("👉 The admin role id is " + maybeAdmin.get().getId());
       }
     };
   }
