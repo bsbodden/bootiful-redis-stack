@@ -1,5 +1,7 @@
 package com.redis.stack.demo.repositories.json;
 
+import java.util.Set;
+
 import com.redis.om.spring.repository.RedisDocumentRepository;
 import com.redis.stack.demo.models.json.FictionalCharacter;
 
@@ -22,4 +24,10 @@ public interface FictionalCharacterRepository extends RedisDocumentRepository<Fi
 
   // Performing a tag search on city
   Iterable<FictionalCharacter> findByActorAddress_City(String city);
+
+  // Search Characters that have one of multiple skills (OR condition)
+  Iterable<FictionalCharacter> findBySkills(Set<String> skills);
+
+  // Search Characters that have all of the skills (AND condition):
+  Iterable<FictionalCharacter> findBySkillsContainingAll(Set<String> skills);
 }
