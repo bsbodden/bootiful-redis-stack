@@ -1,11 +1,18 @@
 package com.redis.stack.demo;
 
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.redis.om.spring.annotations.EnableRedisEnhancedRepositories;
 import com.redis.stack.demo.models.hashes.Role;
+import com.redis.stack.demo.models.hashes.User;
 import com.redis.stack.demo.repositories.hashes.RoleRepository;
 import com.redis.stack.demo.repositories.hashes.UserRepository;
 
@@ -49,6 +56,24 @@ public class DemoApplication {
 
       // Load Users
       if (userRepository.count() == 0) {
+        Reader reader = null;
+        Random rand = new Random();
+        try {
+          reader = Files.newBufferedReader(Paths.get("src/main/resources/data/users/users.json"));
+          List<User> users = new Gson().fromJson(reader, new TypeToken<List<User>>() {}.getType());
+
+          users.stream().forEach((user) -> {
+            user.getRoles().add(roles.get(rand.nextInt(roles.size())));
+            userRepository.save(user);
+          });
+          logger.info(String.format("✅ Created %s Users...", userRepository.count()));
+        } catch (Exception ex) {
+          logger.error(ex);
+        } finally {
+          reader.close();
+        }
+      } else {
+        logger.info(String.format("✅ There are %s Users...", userRepository.count()));
       }
     };
   }
