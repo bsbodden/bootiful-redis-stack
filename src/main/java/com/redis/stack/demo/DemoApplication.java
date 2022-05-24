@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.redis.om.spring.annotations.EnableRedisEnhancedRepositories;
 import com.redis.stack.demo.models.hashes.Role;
 import com.redis.stack.demo.repositories.hashes.RoleRepository;
+import com.redis.stack.demo.repositories.hashes.UserRepository;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,9 +30,10 @@ public class DemoApplication {
   private static final Log logger = LogFactory.getLog(DemoApplication.class);
 
   @Bean
-  CommandLineRunner loadTestData(RoleRepository roleRepository) {
+  CommandLineRunner loadTestData(RoleRepository roleRepository, UserRepository userRepository) {
     logger.info("🚀 Loading test data...");
     return args -> {
+      // Load Roles
       List<Role> roles;
       if (roleRepository.count() == 0) {
         Role admin = Role.builder().name("admin").build();
@@ -43,6 +45,10 @@ public class DemoApplication {
       } else {
         roles = Lists.newArrayList(roleRepository.findAll());
         logger.info(String.format("✅ Loaded %s Roles...", roleRepository.count()));
+      }
+
+      // Load Users
+      if (userRepository.count() == 0) {
       }
     };
   }
