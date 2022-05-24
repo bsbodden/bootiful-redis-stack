@@ -6,4 +6,7 @@ import com.redis.stack.demo.models.json.FictionalCharacter;
 public interface FictionalCharacterRepository extends RedisDocumentRepository<FictionalCharacter, String> {
   // Find people by age range
   Iterable<FictionalCharacter> findByActorAgeBetween(int minAge, int maxAge);
+
+  // Find people by their first and last name
+  Iterable<FictionalCharacter> findByActorFirstNameAndActorLastName(String firstName, String lastName);
 }
