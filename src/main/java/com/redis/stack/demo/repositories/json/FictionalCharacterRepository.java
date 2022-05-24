@@ -19,4 +19,7 @@ public interface FictionalCharacterRepository extends RedisDocumentRepository<Fi
 
   // Performs full text search on a characters quote
   Iterable<FictionalCharacter> searchByQuote(String text);
+
+  // Performing a tag search on city
+  Iterable<FictionalCharacter> findByActorAddress_City(String city);
 }
