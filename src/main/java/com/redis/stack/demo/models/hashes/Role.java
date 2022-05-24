@@ -1,5 +1,7 @@
 package com.redis.stack.demo.models.hashes;
 
+import com.redis.om.spring.annotations.Indexed;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -12,5 +14,7 @@ import lombok.Data;
 public class Role {
   @Id
   private String id;
+
+  @Indexed
   private String name;
 }
