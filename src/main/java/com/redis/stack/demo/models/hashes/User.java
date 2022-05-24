@@ -1,5 +1,6 @@
 package com.redis.stack.demo.models.hashes;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import com.redis.om.spring.annotations.Searchable;
@@ -34,4 +35,8 @@ public class User {
 
   @Reference
   private Set<Role> roles;
+
+  public User() {
+    roles = new HashSet<Role>();
+  }
 }
