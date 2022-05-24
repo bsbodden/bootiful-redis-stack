@@ -16,4 +16,7 @@ public interface FictionalCharacterRepository extends RedisDocumentRepository<Fi
   // Draws a circular geofilter around a spot and returns all people in that
   // radius
   Iterable<FictionalCharacter> findByActorLocationNear(Point point, Distance distance);
+
+  // Performs full text search on a characters quote
+  Iterable<FictionalCharacter> searchByQuote(String text);
 }
