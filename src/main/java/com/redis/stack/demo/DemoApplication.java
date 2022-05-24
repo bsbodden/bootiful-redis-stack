@@ -2,6 +2,7 @@ package com.redis.stack.demo;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.redis.om.spring.annotations.EnableRedisEnhancedRepositories;
 import com.redis.stack.demo.models.hashes.Role;
 import com.redis.stack.demo.repositories.hashes.RoleRepository;
@@ -39,7 +40,8 @@ public class DemoApplication {
         roleRepository.saveAll(roles);
         logger.info(String.format("✅ Created %s Roles...", roleRepository.count()));
       } else {
-
+        roles = Lists.newArrayList(roleRepository.findAll());
+        logger.info(String.format("✅ Loaded %s Roles...", roleRepository.count()));
       }
     };
   }
