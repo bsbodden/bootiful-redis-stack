@@ -30,6 +30,8 @@ public class DemoApplication {
     return args -> {
       if (roleRepository.count() == 0) {
         Role admin = Role.builder().name("admin").build();
+        Role customer = Role.builder().name("customer").build();
+        Role editor = Role.builder().name("editor").build();
       } else {
 
       }
