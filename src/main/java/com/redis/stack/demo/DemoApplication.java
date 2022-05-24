@@ -4,6 +4,7 @@ import com.redis.om.spring.annotations.EnableRedisEnhancedRepositories;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class DemoApplication {
 
   private static final Log logger = LogFactory.getLog(DemoApplication.class);
+
+  @Bean
+  CommandLineRunner loadTestData() {
+    logger.info("🚀 Loading test data...");
+    return args -> {
+    };
+  }
 
   public static void main(String[] args) {
     SpringApplication.run(DemoApplication.class, args);
