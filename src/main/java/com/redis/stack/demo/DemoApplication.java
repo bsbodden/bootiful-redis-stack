@@ -90,6 +90,12 @@ public class DemoApplication {
       // test UserRepository#findByNameStartingWith
       Iterable<User> users = userRepository.findByNameStartingWith("Mic");
       users.forEach(u -> logger.info("👉 Found user named: " + u.getName()));
+
+      // test UserRepository#findByEmail
+      Optional<User> maybeRoger = userRepository.findFirstByEmail("roger.green@example.com");
+      if (maybeRoger.isPresent()) {
+        logger.info("😃 The email [roger.green@example.com] belongs to : " + maybeRoger.get().getName());
+      }
     };
   }
 
