@@ -36,6 +36,8 @@ public class DemoApplication {
         Role customer = Role.builder().name("customer").build();
         Role editor = Role.builder().name("editor").build();
         roles = List.of(admin, customer, editor);
+        roleRepository.saveAll(roles);
+        logger.info(String.format("✅ Created %s Roles...", roleRepository.count()));
       } else {
 
       }
