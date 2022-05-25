@@ -16,9 +16,11 @@ import com.redis.om.spring.annotations.EnableRedisEnhancedRepositories;
 import com.redis.stack.demo.models.hashes.Role;
 import com.redis.stack.demo.models.hashes.User;
 import com.redis.stack.demo.models.json.Address;
+import com.redis.stack.demo.models.json.CharacterEntry;
 import com.redis.stack.demo.models.json.FictionalCharacter;
 import com.redis.stack.demo.repositories.hashes.RoleRepository;
 import com.redis.stack.demo.repositories.hashes.UserRepository;
+import com.redis.stack.demo.repositories.json.CharacterEntryRepository;
 import com.redis.stack.demo.repositories.json.FictionalCharacterRepository;
 
 import org.apache.commons.logging.Log;
@@ -44,7 +46,12 @@ public class DemoApplication {
   private static final Log logger = LogFactory.getLog(DemoApplication.class);
 
   @Bean
-  CommandLineRunner loadTestData(RoleRepository roleRepository, UserRepository userRepository, FictionalCharacterRepository fcRepository) {
+  CommandLineRunner loadTestData( //
+    RoleRepository roleRepository, //
+    UserRepository userRepository, //
+    FictionalCharacterRepository fcRepository, //
+    CharacterEntryRepository ceRepository //
+  ) {
     logger.info("🚀 Loading test data...");
     return args -> {
       // Load Roles
@@ -121,6 +128,28 @@ public class DemoApplication {
         logger.info(String.format("✅ Created %s Fictional Characters...", fcRepository.count()));
       } else {
         logger.info(String.format("✅ There are %s Fictional Characters...", fcRepository.count()));
+      }
+
+      // Load Character Entries
+      if (ceRepository.count() == 0) {
+        Reader reader = null;
+        try {
+          reader = Files.newBufferedReader(Paths.get("src/main/resources/data/marvel-wikia-data.json"));
+          List<CharacterEntry> characterEntries = new Gson().fromJson(reader, new TypeToken<List<CharacterEntry>>() {}.getType());
+
+          characterEntries.stream().forEach((ce) -> {
+            ce.setType(ce.getId());
+            ce.setId(null);
+            ceRepository.save(ce);
+          });
+          logger.info(String.format("✅ Created %s Character Entries...", ceRepository.count()));
+        } catch (Exception ex) {
+          logger.error(ex);
+        } finally {
+          reader.close();
+        }
+      } else {
+        logger.info(String.format("✅ There are %s Lookup Character Entries ...", ceRepository.count()));
       }
     };
   }
