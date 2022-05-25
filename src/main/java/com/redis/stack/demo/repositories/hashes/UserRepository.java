@@ -12,4 +12,6 @@ public interface UserRepository extends CrudRepository<User, String> {
   Iterable<User> findByNameStartingWith(String prefix);
 
   Optional<User> findFirstByEmail(String email);
+
+  boolean existsByEmail(String email);
 }
