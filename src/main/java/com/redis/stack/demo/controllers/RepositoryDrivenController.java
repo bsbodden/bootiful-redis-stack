@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.redis.stack.demo.models.json.FictionalCharacter;
+import com.redis.stack.demo.repositories.hashes.UserRepository;
 import com.redis.stack.demo.repositories.json.FictionalCharacterRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ import org.springframework.data.redis.domain.geo.Metrics;
 public class RepositoryDrivenController {
   @Autowired
   FictionalCharacterRepository repo;
+
+  @Autowired
+  UserRepository userRepo;
 
   @GetMapping("all")
   Iterable<FictionalCharacter> all() {
@@ -72,5 +76,10 @@ public class RepositoryDrivenController {
   @GetMapping("skills/all")
   Iterable<FictionalCharacter> byAllSkills(@RequestParam("skills") Set<String> skills) {
     return repo.findBySkillsContainingAll(skills);
+  }
+
+  @GetMapping("email_taken/{email}")
+  boolean isEmailTaken(@PathVariable String email) {
+    return userRepo.existsByEmail(email);
   }
 }
