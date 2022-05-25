@@ -1,10 +1,13 @@
 package com.redis.stack.demo.controllers;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.redis.om.spring.repository.query.autocomplete.AutoCompleteOptions;
 import com.redis.stack.demo.models.json.FictionalCharacter;
 import com.redis.stack.demo.repositories.hashes.UserRepository;
+import com.redis.stack.demo.repositories.json.CharacterEntryRepository;
 import com.redis.stack.demo.repositories.json.FictionalCharacterRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.redisearch.Suggestion;
 
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;
@@ -26,6 +31,9 @@ public class RepositoryDrivenController {
 
   @Autowired
   UserRepository userRepo;
+
+  @Autowired
+  CharacterEntryRepository ceRepo;
 
   @GetMapping("all")
   Iterable<FictionalCharacter> all() {
@@ -81,5 +89,10 @@ public class RepositoryDrivenController {
   @GetMapping("email_taken/{email}")
   boolean isEmailTaken(@PathVariable String email) {
     return userRepo.existsByEmail(email);
+  }
+
+  @GetMapping("autocomplete/{query}")
+  List<Suggestion> autocomplete(@PathVariable String query) {
+    return ceRepo.autoCompleteName(query, AutoCompleteOptions.get().withPayload());
   }
 }
